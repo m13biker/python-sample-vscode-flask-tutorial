@@ -14,7 +14,7 @@ variables:
   webAppName: 'USCentralDevCICDLabWebApp01'
 
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  vmImageName: 'Linux-Self-Hosted-Agent'
 
   # Environment name
   environmentName: 'USCentralDevCICDLabWebApp01'
