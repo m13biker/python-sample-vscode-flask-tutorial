@@ -12,6 +12,9 @@ variables:
 
   # Web app name
   webAppName: 'USCentralDevCICDLabWebApp01'
+  
+  #Resource group name
+  resourceGroupName: 'USCentralDevCICDLab'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -85,3 +88,10 @@ stages:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+          
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'B1K3R Suscription (828f8c12-b76e-42bc-8acd-209c47ac90cb)-6375'
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: 'az webapp config set --resource-group $(resourceGroupName) --name $(webAppName) --startup-file "startup.txt"'
