@@ -12,8 +12,11 @@ steps:
       package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
 
   - task: AzureCLI@2
+    displayName: 'Configuring WebApp Startup file'
     inputs:
       azureSubscription: ${{ parameters.azureConnection }}
       scriptType: 'pscore'
       scriptLocation: 'inlineScript'
-      inlineScript: 'az webapp config set --resource-group $(resourceGroupName) --name ${{ parameters.webAppName }} --startup-file "startup.txt"'
+      inlineScript: |
+        Write-Output: 'Configuring App Service to use a Startup File startup.txt'
+        az webapp config set --resource-group $(resourceGroupName) --name ${{ parameters.webAppName }} --startup-file "startup.txt"

@@ -6,12 +6,11 @@
 trigger:
 - development
 
-variables:
-  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask.yml"
-
 stages:
 - stage: Build
   displayName: Build stage
+  variables:
+  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask.yml"
   jobs:
   - job: BuildJob
     pool: 
@@ -44,10 +43,12 @@ stages:
       displayName: 'Upload package'
       artifact: drop
 
-- stage: Deploy
-  displayName: 'Deploy Web App'
+- stage: Deploy_DEV
+  displayName: 'Deploy Web App on DEV Environment'
   dependsOn: Build
   condition: succeeded()
+  variables:
+  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-dev.yml"
   jobs:
   - deployment: DeploymentJob
     pool: "Self-Hosted-Agent"
@@ -62,16 +63,22 @@ stages:
               azureConnection: $(azureConnection)
               webAppName: $(webAppName)
 
-#          - task: AzureWebApp@1
-#            displayName: 'Deploy Azure Web App : $(webAppName)'
-#            inputs:
-#              azureSubscription: $(azureConnection)
-#              appName: $(webAppName)
-#              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-#          
-#          - task: AzureCLI@2
-#            inputs:
-#              azureSubscription: $(azureConnection)
-#              scriptType: 'pscore'
-#              scriptLocation: 'inlineScript'
-#              inlineScript: 'az webapp config set --resource-group $(resourceGroupName) --name $(webAppName) --startup-file "startup.txt"'
+- stage: Deploy_QA
+  displayName: 'Deploy Web App on QA Environment'
+  dependsOn: Build
+  condition: succeeded()
+  variables:
+  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-qa.yml"
+  jobs:
+  - deployment: DeploymentJob
+    pool: "Self-Hosted-Agent"
+    environment: QA
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
+            parameters: 
+              azureConnection: $(azureConnection)
+              webAppName: $(webAppName)

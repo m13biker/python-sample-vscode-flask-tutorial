@@ -1,14 +1,2 @@
 variables:
-  azureConnection: 'B1K3R Suscription'
-  subscriptionId: "828f8c12-b76e-42bc-8acd-209c47ac90cb"
-  resourceGroupName: "USCDevCICDLab"
-  location: "centralus"
-  webAppName: "USCDevCICDLabWebApp01"
-  locationName: "Central US"
-  appServicePlanName: "USCDevCICDLabAppServicePlan01"
-  linuxFramework: 'PYTHON|3.9'
-  appServicePlanSKU: 'Free'
-  appServicePlanSKUCode: 'F1'
-  appServiceKind: 'linux'
-  webAppConfigure: true
   pythonVersion: '3.7'
