@@ -71,7 +71,7 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: DeploymentJob
-    pool: "Linux-Self-Hosted-Agent"
+    pool: "Self-Hosted-Agent"
     environment: Development
     strategy:
       runOnce:
