@@ -7,7 +7,7 @@ trigger:
 - main
 
 variables:
-  - template: "${{variables.System.ArtifactsDirectory}}/Variables/manifest-flask.yml"
+  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask.yml"
 
 #  # Azure Resource Manager connection created during pipeline creation
 #  azureServiceConnectionId: 'b9402fe9-12a9-4327-916e-a189359239e5'
