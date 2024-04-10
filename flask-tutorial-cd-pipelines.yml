@@ -35,7 +35,7 @@ stages:
   displayName: Build stage
   jobs:
   - job: BuildJob
-    pool: "Linux-Self-Hosted-Agent"
+    pool: "Self-Hosted-Agent"
     steps:
     - task: UsePythonVersion@0
       inputs:
