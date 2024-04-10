@@ -4,31 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- main
+- development
 
 variables:
   - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask.yml"
-
-#  # Azure Resource Manager connection created during pipeline creation
-#  azureServiceConnectionId: 'b9402fe9-12a9-4327-916e-a189359239e5'
-#
-#  # Web app name
-#  webAppName: 'USCentralDevCICDLabWebApp01'
-#  
-#  #Resource group name
-#  resourceGroupName: 'USCentralDevCICDLab'
-#
-#  # Agent VM image name
-#  vmImageName: 'ubuntu-latest'
-#
-#  # Environment name
-#  environmentName: 'USCentralDevCICDLabWebApp01'
-#
-#  # Project root folder. Point to the folder containing manage.py file.
-#  projectRoot: $(System.DefaultWorkingDirectory)
-#
-#  # Python version: 3.7
-#  pythonVersion: '3.7'
 
 stages:
 - stage: Build
@@ -78,21 +57,21 @@ stages:
         deploy:
           steps:
 
-          #- task: UsePythonVersion@0
-          #  inputs:
-          #    versionSpec: '$(pythonVersion)'
-          #  displayName: 'Use Python version'
+          - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
+            parameters: 
+              azureConnection: $(azureConnection)
+              webAppName: $(webAppName)
 
-          - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : $(webAppName)'
-            inputs:
-              azureSubscription: $(azureConnection)
-              appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-          
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: $(azureConnection)
-              scriptType: 'pscore'
-              scriptLocation: 'inlineScript'
-              inlineScript: 'az webapp config set --resource-group $(resourceGroupName) --name $(webAppName) --startup-file "startup.txt"'
+#          - task: AzureWebApp@1
+#            displayName: 'Deploy Azure Web App : $(webAppName)'
+#            inputs:
+#              azureSubscription: $(azureConnection)
+#              appName: $(webAppName)
+#              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+#          
+#          - task: AzureCLI@2
+#            inputs:
+#              azureSubscription: $(azureConnection)
+#              scriptType: 'pscore'
+#              scriptLocation: 'inlineScript'
+#              inlineScript: 'az webapp config set --resource-group $(resourceGroupName) --name $(webAppName) --startup-file "startup.txt"'

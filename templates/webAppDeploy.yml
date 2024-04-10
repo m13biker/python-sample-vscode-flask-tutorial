@@ -1,0 +1,19 @@
+---
+parameters:
+  azureConnection: ''
+  webAppName: ''
+
+steps:
+  - task: AzureWebApp@1
+    displayName: 'Deploy Azure Web App : ${{ parameters.webAppName }}'
+    inputs:
+      azureSubscription: ${{ parameters.azureConnection }}
+      appName: ${{ parameters.webAppName }}
+      package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: ${{ parameters.azureConnection }}
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'az webapp config set --resource-group $(resourceGroupName) --name ${{ parameters.webAppName }} --startup-file "startup.txt"'
