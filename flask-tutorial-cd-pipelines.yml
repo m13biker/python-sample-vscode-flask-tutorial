@@ -35,7 +35,8 @@ stages:
   displayName: Build stage
   jobs:
   - job: BuildJob
-    pool: "Self-Hosted-Agent"
+    pool: 
+      vmimage: "ubuntu-latest"
     steps:
     - task: UsePythonVersion@0
       inputs:
