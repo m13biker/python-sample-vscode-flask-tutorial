@@ -1,0 +1,6 @@
+variables:
+  resourceGroupName: "WUSPreProdCICDLab"
+  location: "westus"
+  webAppName: "WUSPreProdCICDLabWebApp01"
+  locationName: "West US"
+  appServicePlanName: "WUSPreProdCICDLabAppServicePlan01"
