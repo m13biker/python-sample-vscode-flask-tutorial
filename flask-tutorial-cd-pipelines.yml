@@ -6,10 +6,10 @@ parameters:
     default: 
       - env: 
         - "dev"
-          regions:
+          - regions:
             - "USC"
         - "QA"
-          regions:
+          - regions:
             - "USC"
 
 stages:
