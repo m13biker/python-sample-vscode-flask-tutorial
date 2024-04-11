@@ -1,6 +1,14 @@
 trigger:
 - development
 
+parameters:
+  - name: environments
+    type: object
+    default: 
+      env: 
+        - "dev"
+          "qa"
+
 stages:
 - stage: Build
   displayName: Build stage
