@@ -4,9 +4,13 @@ parameters:
   - name: environments
     type: object
     default: 
-      - env: "dev"
-        regions:
-          - "USC"
+      - env: 
+        - "dev"
+          regions:
+            - "USC"
+        - "QA"
+          regions:
+            - "USC"
 
 stages:
   - stage: Build
