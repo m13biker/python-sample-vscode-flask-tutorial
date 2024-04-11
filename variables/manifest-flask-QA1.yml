@@ -1,6 +1,0 @@
-variables:
-  resourceGroupName: "USE2QACICDLab"
-  location: "eastus2"
-  webAppName: "USE2QACICDLabWebApp01"
-  locationName: "East US 2"
-  appServicePlanName: "USE2QACICDLabAppServicePlan01"
