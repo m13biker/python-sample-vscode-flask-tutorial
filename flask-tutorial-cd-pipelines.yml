@@ -1,8 +1,3 @@
-# FLASK-APP-DEPLOY
-# Build your Python project and deploy it to Azure as a Linux Web App.
-# Change python version to one thats appropriate for your application.
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
 - development
 
@@ -57,40 +52,10 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : $(webAppName)'
-            inputs:
-              azureSubscription: ${{ variables.azureConnection }}
-              appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-
-          - task: AzureCLI@2
-            displayName: 'Configuring WebApp Startup file'
-            inputs:
-              azureSubscription: ${{ variables.azureConnection }}
-              scriptType: 'pscore'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                Write-Output 'Configuring App Service to use a Startup File startup.txt'
-                az webapp config set --resource-group $(resourceGroupName) --name $(webAppName) --startup-file "startup.txt"
-#- stage: Deploy_DEV
-#  displayName: 'Deploy Web App on DEV Environment'
-#  dependsOn: Build
-#  condition: succeeded()
-#  variables:
-#  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-dev.yml"
-#  jobs:
-#  - deployment: DeploymentJob
-#    pool: "Self-Hosted-Agent"
-#    environment: Development
-#    strategy:
-#      runOnce:
-#        deploy:
-#          steps:
-#          - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
-#            parameters: 
-#              azureConnection: $(azureConnection)
-#              webAppName: $(webAppName)
+          - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
+            parameters: 
+              azureConnection: ${{variables.azureConnection}}
+              webAppName: ${{variables.webAppName}}
 
 - stage: Deploy_QA
   displayName: 'Deploy Web App on QA Environment'

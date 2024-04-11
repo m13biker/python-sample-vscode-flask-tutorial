@@ -17,5 +17,5 @@ steps:
       scriptType: 'pscore'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        Write-Output: 'Configuring App Service to use a Startup File startup.txt'
+        Write-Output 'Configuring App Service to use a Startup File startup.txt'
         az webapp config set --resource-group $(resourceGroupName) --name ${{ parameters.webAppName }} --startup-file "startup.txt"
