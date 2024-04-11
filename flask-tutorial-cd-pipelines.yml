@@ -49,12 +49,12 @@ stages:
     - ${{ each region in e.regions }}:
       - stage: "${{ e.env }}"
         displayName: "Deploy Web App on ${{ e.env }} Environment"
-        #${{ if eq(e.env, 'dev') }}:
-        #  dependsOn: [Build]
-        #  condition: succeeded()
-        #${{ if eq(e.env,'qa') }}:
-        #  dependsOn: [Build,Dev]
-        #  condition: succeeded()
+        ${{ if eq(e.env, 'dev') }}:
+          dependsOn: [Build]
+          condition: succeeded()
+        ${{ if eq(e.env,'qa') }}:
+          dependsOn: [Build,Dev]
+          condition: succeeded()
         jobs:
           - deployment: DeploymentJob
             pool: "Self-Hosted-Agent"
