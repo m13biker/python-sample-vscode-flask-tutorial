@@ -6,8 +6,8 @@ parameters:
     type: object
     default: 
       env: 
-        - "dev"
-          "qa"
+        "dev"
+        "qa"
 
 stages:
 - stage: Build
