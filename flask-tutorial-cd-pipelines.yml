@@ -4,11 +4,10 @@ parameters:
   - name: environments
     type: object
     default: 
-      - env: 
-        - "DEV"
-        - "QA"
-        regions:
-          - "USC"
+      - region: "USC"
+        environment:
+          - 'DEV'
+          - 'QA'
 
 stages:
   - stage: Build
@@ -47,14 +46,14 @@ stages:
             displayName: 'Upload package'
             artifact: drop
 
-  - ${{ each e in parameters.environments }}:
-    - ${{ each region in e.regions }}:
-      - stage: "${{ e.env }}"
-        displayName: "Deploy Web App on ${{ e.env }} Environment"
-        ${{ if eq(e.env, 'dev') }}:
+  - ${{ each e in parameters.region }}:
+    - ${{ each env in e.environment }}:
+      - stage: "${{ env }}"
+        displayName: "Deploy Web App on ${{ env }} Environment"
+        ${{ if eq(env, 'dev') }}:
           dependsOn: [Build]
           condition: succeeded()
-        ${{ if eq(e.env,'qa') }}:
+        ${{ if eq(env,'qa') }}:
           dependsOn: [Build,Dev]
           condition: succeeded()
         jobs:
