@@ -6,8 +6,8 @@ parameters:
     default: 
       - regions: "USC" #env
         env:  #regions
-          - 'DEV'
-          - 'QA'
+          - 'dev'
+          - 'qa'
 
 stages:
   - stage: Build
