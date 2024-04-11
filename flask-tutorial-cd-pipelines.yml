@@ -48,27 +48,27 @@ stages:
           - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             displayName: 'Upload package'
             artifact: drop
-#
-#  - ${{ each e in parameters.environments }}: 
-#    - stage: ${{ e.env }}
-#      displayName: "Deploy Web App on ${{ e.env }} Environment"
-#      ${{ if eq(e.env, 'dev') }}:
-#        dependsOn: [Build]
-#        condition: succeeded()
-#      ${{ if eq(e.env,'qa') }}:
-#        dependsOn: [Build,Dev]
-#        condition: succeeded()
-#      variables:
-#        - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
-#      jobs:
-#        - deployment: DeploymentJob
-#          pool: "Self-Hosted-Agent"
-#          environment: Development
-#          strategy:
-#            runOnce:
-#              deploy:
-#                steps:
-#                - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
-#                  parameters: 
-#                    azureConnection: ${{variables.azureConnection}}
-#                    webAppName: ${{variables.webAppName}}
+
+  - ${{ each e in parameters.environments }}: 
+    - stage: ${{ e.env }}
+      displayName: "Deploy Web App on ${{ e.env }} Environment"
+      ${{ if eq(e.env, 'dev') }}:
+        dependsOn: [Build]
+        condition: succeeded()
+      ${{ if eq(e.env,'qa') }}:
+        dependsOn: [Build,Dev]
+        condition: succeeded()
+      jobs:
+        - deployment: DeploymentJob
+          pool: "Self-Hosted-Agent"
+          environment: Development
+          variables:
+            - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
+          strategy:
+            runOnce:
+              deploy:
+                steps:
+                - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
+                  parameters: 
+                    azureConnection: ${{variables.azureConnection}}
+                    webAppName: ${{variables.webAppName}}
