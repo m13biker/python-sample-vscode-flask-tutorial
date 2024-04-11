@@ -1,11 +1,11 @@
 variables:
   azureConnection: 'B1K3R Suscription'
   subscriptionId: "828f8c12-b76e-42bc-8acd-209c47ac90cb"
-  resourceGroupName: "USE2QACICDLab"
-  location: "eastus2"
-  webAppName: "USE2QACICDLabWebApp01"
-  locationName: "East US 2"
-  appServicePlanName: "USE2QACICDLabAppServicePlan01"
+  resourceGroupName: "WUSPreProdCICDLab"
+  location: "westus"
+  webAppName: "WUSPreProdCICDLabWebApp01"
+  locationName: "West US"
+  appServicePlanName: "WUSPreProdCICDLabAppServicePlan01"
   linuxFramework: 'PYTHON|3.9'
   appServicePlanSKU: 'Free'
   appServicePlanSKUCode: 'F1'
