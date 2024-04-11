@@ -1,0 +1,8 @@
+variables:
+  resourceGroupName: "BRSProdCICDLab"
+  location: "brazilsouth"
+  webAppName: "BRSProdCICDLabWebApp01"
+  locationName: "Brazil South"
+  appServicePlanName: "BRSProdCICDLabAppServicePlan01"
+  appServicePlanSKU: 'Basic'
+  appServicePlanSKUCode: 'B2'
