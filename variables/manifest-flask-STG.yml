@@ -1,0 +1,6 @@
+variables:
+  resourceGroupName: "USSCStgCICDLab"
+  location: "southcentralus"
+  webAppName: "USSCStgCICDLabWebApp01"
+  locationName: "South Central US"
+  appServicePlanName: "USSCStgCICDLabAppServicePlan01"

@@ -1,0 +1,6 @@
+variables:
+  resourceGroupName: "USEUatCICDLab"
+  location: "eastus"
+  webAppName: "USEUatCICDLabWebApp01"
+  locationName: "East US"
+  appServicePlanName: "USEUatCICDLabAppServicePlan01"
