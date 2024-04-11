@@ -4,13 +4,9 @@ parameters:
   - name: environments
     type: object
     default: 
-      - env: 
-          - "dev"
-          - "qa"
-          #- "uat"
-          #- "stg"
-          #- "pre-prod"
-          #- "prod"
+      - env: "dev"
+        regions:
+          - "USC"
 
 stages:
   - stage: Build
@@ -50,25 +46,26 @@ stages:
             artifact: drop
 
   - ${{ each e in parameters.environments }}:
-    - stage: "${{ e.env }}"
-      displayName: "Deploy Web App on ${{ e.env }} Environment"
-      ${{ if eq(e.env, 'dev') }}:
-        dependsOn: [Build]
-        condition: succeeded()
-      ${{ if eq(e.env,'qa') }}:
-        dependsOn: [Build,Dev]
-        condition: succeeded()
-      jobs:
-        - deployment: DeploymentJob
-          pool: "Self-Hosted-Agent"
-          environment: Development
-          variables:
-            - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
-          strategy:
-            runOnce:
-              deploy:
-                steps:
-                - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
-                  parameters: 
-                    azureConnection: ${{variables.azureConnection}}
-                    webAppName: ${{variables.webAppName}}
+    - ${{ each region in e.regions }}:
+      - stage: "${{ e.env }}"
+        displayName: "Deploy Web App on ${{ e.env }} Environment"
+        ${{ if eq(e.env, 'dev') }}:
+          dependsOn: [Build]
+          condition: succeeded()
+        ${{ if eq(e.env,'qa') }}:
+          dependsOn: [Build,Dev]
+          condition: succeeded()
+        jobs:
+          - deployment: DeploymentJob
+            pool: "Self-Hosted-Agent"
+            environment: Development
+            variables:
+              - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                  - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
+                    parameters: 
+                      azureConnection: ${{variables.azureConnection}}
+                      webAppName: ${{variables.webAppName}}
