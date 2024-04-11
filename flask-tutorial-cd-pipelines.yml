@@ -50,10 +50,14 @@ stages:
       artifact: drop
 
 - ${{ each e in parameters.environments }}: 
-  - stage: Deploy_App_for_${{ e.env }}
+  - stage: ${{ e.env }}
     displayName: 'Deploy Web App on ${{ e.env }} Environment'
-    dependsOn: Build
-    condition: succeeded()
+    ${{ if eq(e.env, 'dev') }}:
+      dependsOn: [Build]
+      condition: succeeded()
+    ${{ if eq(e.env,'qa') }}:
+      dependsOn: [Build,Dev]
+      condition: succeeded()
     variables:
     - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
     jobs:
