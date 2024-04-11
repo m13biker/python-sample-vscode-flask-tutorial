@@ -42,7 +42,7 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
-      
+
 - stage: Deploy_DEV
   displayName: 'Deploy Web App on DEV Environment'
   dependsOn: Build
@@ -92,22 +92,22 @@ stages:
 #              azureConnection: $(azureConnection)
 #              webAppName: $(webAppName)
 
-#- stage: Deploy_QA
-#  displayName: 'Deploy Web App on QA Environment'
-#  dependsOn: Build
-#  condition: succeeded()
-#  variables:
-#  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-qa.yml"
-#  jobs:
-#  - deployment: DeploymentJob
-#    pool: "Self-Hosted-Agent"
-#    environment: QA
-#    strategy:
-#      runOnce:
-#        deploy:
-#          steps:
-#
-#          - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
-#            parameters: 
-#              azureConnection: $(azureConnection)
-#              webAppName: $(webAppName)
+- stage: Deploy_QA
+  displayName: 'Deploy Web App on QA Environment'
+  dependsOn: Build
+  condition: succeeded()
+  variables:
+  - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-qa.yml"
+  jobs:
+  - deployment: DeploymentJob
+    pool: "Self-Hosted-Agent"
+    environment: QA
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
+            parameters: 
+              azureConnection: ${{variables.azureConnection}}
+              webAppName: ${{variables.webAppName}}
