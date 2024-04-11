@@ -54,20 +54,20 @@ stages:
     - ${{ each env in e.env }}:
       - stage: "${{ env }}"
         displayName: "Deploy Web App on ${{ env }} Environment"
-        ${{ if or(eq(env, 'dev'), eq(env, 'test')) }}:
+        ${{ if or(eq(env, 'Development'), eq(env, 'Test')) }}:
           dependsOn: [Build]
-        ${{ if eq(env,'qa') }}:
-          dependsOn: [Build,Dev]
-        ${{ if eq(env,'uat') }}:
-          dependsOn: [Build,qa]
-        ${{ if eq(env,'stg') }}:
-          dependsOn: [Build,uat]
-        ${{ if eq(env,'prod') }}:
-          dependsOn: [Build,stg]
+        ${{ if eq(env,'QA') }}:
+          dependsOn: [Build,Development]
+        ${{ if eq(env,'UAT') }}:
+          dependsOn: [Build,QA]
+        ${{ if eq(env,'STG') }}:
+          dependsOn: [Build,UAT]
+        ${{ if eq(env,'Production') }}:
+          dependsOn: [Build,STG]
         jobs:
           - deployment: DeploymentJob
             pool: "Self-Hosted-Agent"
-            environment: Development
+            environment: "${{ env }}"
             variables:
               - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ env }}.yml"
             strategy:
