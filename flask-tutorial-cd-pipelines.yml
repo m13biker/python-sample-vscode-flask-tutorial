@@ -51,7 +51,7 @@ stages:
 
   - ${{ each e in parameters.environments }}: 
     - stage: ${{ e.env }}
-      displayName: 'Deploy Web App on ${{ e.env }} Environment'
+      displayName: "Deploy Web App on ${{ e.env }} Environment"
       ${{ if eq(e.env, 'dev') }}:
         dependsOn: [Build]
         condition: succeeded()
