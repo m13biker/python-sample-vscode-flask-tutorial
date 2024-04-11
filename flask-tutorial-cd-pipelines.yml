@@ -5,11 +5,11 @@ parameters:
     type: object
     default: 
       - env: 
-        - "dev"
-          - regions:
+        - name: "dev"
+          regions:
             - "USC"
-        - "QA"
-          - regions:
+        - name: "QA"
+          regions:
             - "USC"
 
 stages:
