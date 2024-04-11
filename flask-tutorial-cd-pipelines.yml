@@ -26,7 +26,7 @@ stages:
         inputs:
           versionSpec: '$(pythonVersion)'
         displayName: 'Use Python $(pythonVersion)'
-  
+
       - script: |
           python -m venv antenv
           source antenv/bin/activate
@@ -35,7 +35,7 @@ stages:
           pip install -r requirements.txt
         workingDirectory: $(System.DefaultWorkingDirectory)
         displayName: "Install requirements"
-  
+
       - task: ArchiveFiles@2
         displayName: 'Archive files'
         inputs:
@@ -44,11 +44,11 @@ stages:
           archiveType: zip
           archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
           replaceExistingArchive: true
-  
+
       - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         displayName: 'Upload package'
         artifact: drop
-  
+
   - ${{ each e in parameters.environments }}: 
     - stage: ${{ e.env }}
       displayName: 'Deploy Web App on ${{ e.env }} Environment'
@@ -59,20 +59,20 @@ stages:
         dependsOn: [Build,Dev]
         condition: succeeded()
       variables:
-      - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
+        - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
       jobs:
-      - deployment: DeploymentJob
-        pool: "Self-Hosted-Agent"
-        environment: Development
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-              - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
-                parameters: 
-                  azureConnection: ${{variables.azureConnection}}
-                  webAppName: ${{variables.webAppName}}
-  
+        - deployment: DeploymentJob
+          pool: "Self-Hosted-Agent"
+          environment: Development
+          strategy:
+            runOnce:
+              deploy:
+                steps:
+                - template: "${{variables.system.ArtifactsDirectory}}/templates/webAppDeploy.yml"
+                  parameters: 
+                    azureConnection: ${{variables.azureConnection}}
+                    webAppName: ${{variables.webAppName}}
+
   #- stage: Deploy_QA
   #  displayName: 'Deploy Web App on QA Environment'
   #  dependsOn: Build
