@@ -4,10 +4,14 @@ parameters:
   - name: environments
     type: object
     default: 
-      - regions: "USC" #env
-        env:  #regions
+      - iteration: "1" 
+        env:  
           - 'dev'
           - 'qa'
+          - 'uat'
+          - 'stg'
+          - 'test'
+          - 'prod'
 
 stages:
   - stage: Build
@@ -50,12 +54,16 @@ stages:
     - ${{ each env in e.env }}:
       - stage: "${{ env }}"
         displayName: "Deploy Web App on ${{ env }} Environment"
-        ${{ if eq(env, 'dev') }}:
+        ${{ if or(eq(env, 'dev'), eq(env, 'test')) }}:
           dependsOn: [Build]
-          condition: succeeded()
         ${{ if eq(env,'qa') }}:
           dependsOn: [Build,Dev]
-          condition: succeeded()
+        ${{ if eq(env,'uat') }}:
+          dependsOn: [Build,qa]
+        ${{ if eq(env,'stg') }}:
+          dependsOn: [Build,uat]
+        ${{ if eq(env,'prod') }}:
+          dependsOn: [Build,stg]
         jobs:
           - deployment: DeploymentJob
             pool: "Self-Hosted-Agent"
