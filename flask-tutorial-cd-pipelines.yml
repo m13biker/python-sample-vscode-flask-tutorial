@@ -4,7 +4,7 @@ parameters:
   - name: environments
     type: object
     default: 
-      - region: "USC" #env
+      - regions: "USC" #env
         env:  #regions
           - 'DEV'
           - 'QA'
@@ -61,7 +61,7 @@ stages:
             pool: "Self-Hosted-Agent"
             environment: Development
             variables:
-              - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ e.env }}.yml"
+              - template: "${{variables.System.ArtifactsDirectory}}/variables/manifest-flask-${{ env }}.yml"
             strategy:
               runOnce:
                 deploy:
