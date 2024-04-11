@@ -26,7 +26,7 @@ stages:
           inputs:
             versionSpec: '$(pythonVersion)'
           displayName: 'Use Python $(pythonVersion)'
-  
+
         - script: |
             python -m venv antenv
             source antenv/bin/activate
@@ -35,7 +35,7 @@ stages:
             pip install -r requirements.txt
           workingDirectory: $(System.DefaultWorkingDirectory)
           displayName: "Install requirements"
-  
+
         - task: ArchiveFiles@2
           displayName: 'Archive files'
           inputs:
@@ -45,9 +45,9 @@ stages:
             archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             replaceExistingArchive: true
 
-      - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        displayName: 'Upload package'
-        artifact: drop
+        - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+          displayName: 'Upload package'
+          artifact: drop
 
   - ${{ each e in parameters.environments }}: 
     - stage: ${{ e.env }}
