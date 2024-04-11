@@ -1,6 +1,0 @@
-variables:
-  resourceGroupName: "USCDevCICDLab"
-  location: "centralus"
-  webAppName: "USCDevCICDLabWebApp01"
-  locationName: "Central US"
-  appServicePlanName: "USCDevCICDLabAppServicePlan01"
