@@ -46,7 +46,7 @@ stages:
             displayName: 'Upload package'
             artifact: drop
 
-  - ${{ each e in parameters.region }}:
+  - ${{ each e in parameters.environments }}:
     - ${{ each env in e.environment }}:
       - stage: "${{ env }}"
         displayName: "Deploy Web App on ${{ env }} Environment"
