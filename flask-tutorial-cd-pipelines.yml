@@ -5,9 +5,9 @@ parameters:
   - name: environments
     type: object
     default: 
-      env: 
-        "dev"
-        "qa"
+      - env: 
+          - "dev"
+            "qa"
 
 stages:
 - stage: Build
