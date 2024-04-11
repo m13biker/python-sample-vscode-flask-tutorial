@@ -7,7 +7,7 @@ parameters:
     default: 
       - env: 
           - "dev"
-            "qa"
+          - "qa"
 
 stages:
 - stage: Build
