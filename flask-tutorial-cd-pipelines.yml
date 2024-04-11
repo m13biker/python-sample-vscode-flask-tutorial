@@ -4,8 +4,8 @@ parameters:
   - name: environments
     type: object
     default: 
-      - region: "USC"
-        environment:
+      - region: "USC" #env
+        env:  #regions
           - 'DEV'
           - 'QA'
 
@@ -47,7 +47,7 @@ stages:
             artifact: drop
 
   - ${{ each e in parameters.environments }}:
-    - ${{ each env in e.environment }}:
+    - ${{ each env in e.env }}:
       - stage: "${{ env }}"
         displayName: "Deploy Web App on ${{ env }} Environment"
         ${{ if eq(env, 'dev') }}:
