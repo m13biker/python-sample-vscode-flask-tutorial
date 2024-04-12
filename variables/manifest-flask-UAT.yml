@@ -1,4 +1,6 @@
 variables:
+  azureConnection: 'B1K3R Suscription'
+  subscriptionId: "828f8c12-b76e-42bc-8acd-209c47ac90cb"
   resourceGroupName: "USEUatCICDLab"
   location: "eastus"
   webAppName: "USEUatCICDLabWebApp01"
