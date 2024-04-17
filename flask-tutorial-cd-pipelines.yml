@@ -65,7 +65,7 @@ stages:
         ${{ if eq(env,'Production') }}:
           dependsOn: [Build,STG]
         jobs:
-          - deployment: DeploymentJob
+          - deployment: Deploy_App_${{ env }}
             pool: "Self-Hosted-Agent"
             environment: "${{ env }}"
             variables:
